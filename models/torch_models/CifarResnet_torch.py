@@ -19,7 +19,7 @@ def convert_resnet_to_cifar(model):
 
 # models trained on imagenet
 resnet18=models.resnet18(pretrained=True)
-# models for ImageNet
+# models for ImageNet to models for Cifar
 resnet18_cifar = convert_resnet_to_cifar(resnet18)
 
 
