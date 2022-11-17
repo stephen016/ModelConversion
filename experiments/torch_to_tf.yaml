@@ -30,10 +30,10 @@ grid:
         options:
           - "resnet18"
           - "resnet50"
-          #- "densenet121"
-          #- "inception_v4"
-          #- "inception_resnet_v2"
-          #- "visformer_small"
+          - "densenet121"
+          - "inception_v4"
+          - "inception_resnet_v2"
+          - "visformer_small"
 
 
   

@@ -24,6 +24,8 @@ ex = Experiment()
 seml.setup_logger(ex)
 
 def get_torch_acc(model,test_loader,device):
+    model = model.to(device)
+    model.eval()
     _correct=0
     _all=0
     for imgs,labels in test_loader:
@@ -58,6 +60,7 @@ def get_tf_acc(loaded,test_loader):
     return _correct/_all
 
 def get_acc_from_converted_pytorch_model(model,test_loader):
+    model.eval()
     _all=0
     _correct=0
     for imgs,labels in test_loader:
@@ -112,9 +115,9 @@ def run(arguments):
         torch_model = model.model
         torch_model.load_state_dict(torch.load(load_path))
     # step3: save and test model accuracy 
-    original_acc=get_torch_acc(model,test_loader,device)
-
-    torch_save_path = f"../saved_models/torch2tf/{model_name}.pth"
+    original_acc=get_torch_acc(torch_model,test_loader,device)
+    
+    torch_save_path = f"saved_models/torch2tf/{model_name}.pth"
     torch.save(torch_model.state_dict(),torch_save_path)
     
     # step4: convert to onnx and save
@@ -122,7 +125,7 @@ def run(arguments):
         dummy_input = torch.randn(1,3,32,32,device="cuda")
     elif arguments["dataset"]=="imagenette":
         dummy_input = torch.randn(1,3,224,224,device="cuda")
-    onnx_save_path = f"../saved_models/torch2tf/{model_name}.onnx"
+    onnx_save_path = f"saved_models/torch2tf/{model_name}.onnx"
     torch.onnx.export(torch_model,
                   dummy_input,
                   onnx_save_path,
@@ -138,7 +141,7 @@ def run(arguments):
     onnx_model = onnx.load(onnx_save_path)
     tf_rep = prepare(onnx_model)
     # step7: save tf model, load and test accuracy
-    tf_save_path = f"../saved_models/torch2tf/{model_name}"
+    tf_save_path = f"saved_models/torch2tf/{model_name}"
     tf_rep.export_graph(tf_save_path)
     
     tf_model = tf.saved_model.load(tf_save_path)
