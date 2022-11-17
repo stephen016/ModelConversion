@@ -5,3 +5,5 @@ saved_models
 __pycache__
 *.pyc
 *.ipynb_checkpoints
+logs/
+experiments/__pycache__
