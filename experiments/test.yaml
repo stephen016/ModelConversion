@@ -1,0 +1,24 @@
+seml:
+  executable: experiments/test.py
+  name: test
+  output_dir: logs
+  project_root_dir: ..
+  conda_environment: MA
+
+slurm:
+  experiments_per_job: 1
+  sbatch_options:
+    gres: gpu:1
+    mem: 16G          # memory
+    cpus-per-task: 4  # num cores
+    time: 4-00:00     # max time, D-HH:MM
+    partition: ['gpu_all']
+ 
+fixed:
+  arguments:
+    epoch: 3
+    batch_size: 32
+
+
+  
+        

@@ -1,0 +1,40 @@
+seml:
+  executable: experiments/torch_to_tf.py
+  name: torch_to_tf
+  output_dir: logs
+  project_root_dir: ..
+  conda_environment: MA
+
+slurm:
+  experiments_per_job: 1
+  sbatch_options:
+    gres: gpu:1
+    mem: 16G          # memory
+    cpus-per-task: 4  # num cores
+    time: 1-00:00     # max time, D-HH:MM
+    partition: ['gpu_all']
+ 
+fixed:
+  arguments:
+    dataset: "imagenette" #["cifar10","imagenette"] 
+    num_classes: 10
+    train: True # whether need to train a new model, if not need to provide load_path
+    load_path: ""
+    epochs: 10
+    batch_size: 64
+
+grid:
+  arguments:
+      model:
+        type: choice
+        options:
+          - "resnet18"
+          - "resnet50"
+          #- "densenet121"
+          #- "inception_v4"
+          #- "inception_resnet_v2"
+          #- "visformer_small"
+
+
+  
+        
