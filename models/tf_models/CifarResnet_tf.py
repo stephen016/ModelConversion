@@ -145,7 +145,7 @@ def Resnet101(num_classes):
     return BuildResNet(BottleNeck, [3, 8, 36, 3], num_classes)
  """
 
-def get_Resnet18(num_classes):
+def get_CifarResnet18(num_classes):
     resnet = Resnet18(num_classes=num_classes)
     inputs = tf.keras.layers.Input(shape=(32,32,3))
     outputs = resnet(inputs) 
@@ -154,7 +154,7 @@ def get_Resnet18(num_classes):
                                                   beta_1 = 0.9,
                                                   beta_2 = 0.999, 
                                                   amsgrad = False), 
-                loss='sparse_categorical_crossentropy',
+                loss='categorical_crossentropy',
                 metrics = ['accuracy'])
   
     return model
